@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Inventory Tool - J&T Express SUMBAGUT | Powered by Herbie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; }
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+        
+        .dark {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+        
+        .light {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .gradient-bg { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); }
+        .gradient-text { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .sidebar {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .sidebar-link {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16,185,129,0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(239,68,68,0.4);
+        }
+        
+        .input-field {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 10px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .table-row {
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        
+        .table-row:hover {
+            background: rgba(102,126,234,0.05);
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success { background: rgba(16,185,129,0.1); color: #10b981; }
+        .badge-warning { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .badge-danger { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .badge-info { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-success { background: linear-gradient(135deg, #10b981 0%, #34d399 100%); }
+        .toast-error { background: linear-gradient(135deg, #ef4444 0%, #f87171 100%); }
+        .toast-warning { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); }
+        
+        .loading-spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .mobile-menu { display: block; }
+            .main-content { margin-left: 0 !important; }
+        }
+        
+        .search-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .filter-select {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-dot.online { background: #10b981; }
+        .status-dot.offline { background: #ef4444; }
+    </style>
+</head>
+<body class="dark">
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+    
+    <!-- Mobile Menu Button -->
+    <button class="fab mobile-menu" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 min-h-screen p-6 flex flex-col">
+            <div class="mb-8">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
+                        <i class="fas fa-box text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg gradient-text">IT Inventory</h1>
+                        <p class="text-xs text-gray-500">J&T SUMBAGUT</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="flex-1">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" onclick="showPage('dashboard')" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-xl" id="nav-dashboard">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="showPage('inventory')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl" id="nav-inventory">
+                            <i class="fas fa-boxes-stacked"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="showPage('pengajuan')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl" id="nav-pengajuan">
+                            <i class="fas fa-file-import"></i>
+                            <span>Pengajuan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="showPage('approval')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl" id="nav-approval">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Approval</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="showPage('laporan')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl" id="nav-laporan">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="mt-auto pt-6 border-t" style="border-color: var(--border-color);">
+                <div class="flex items-center gap-3 px-4 py-3">
+                    <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-sm">Herbie</p>
+                        <p class="text-xs text-gray-500">AI Assistant</p>
+                    </div>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <div class="flex items-center justify-between px-4 py-3 mt-4">
+                    <span class="text-sm text-gray-500">Dark Mode</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="theme-toggle" class="sr-only peer" checked>
+                        <div class="w-14 h-7 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-purple-500 peer-checked:to-blue-500"></div>
+                    </label>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content flex-1 p-8">
+            <!-- Dashboard Page -->
+            <div id="page-dashboard" class="page">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Dashboard</h2>
+                        <p class="text-gray-500">Overview Inventory IT J&T Express SUMBAGUT</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="status-dot online"></span>
+                        <span class="text-sm text-gray-500">Connected to Feishu Base</span>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-boxes text-blue-600 text-xl"></i>
+                            </div>
+                            <span class="badge badge-info" id="stat-total">Loading...</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1" id="total-items">-</h3>
+                        <p class="text-gray-500 text-sm">Total Items</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                            <span class="badge badge-success">Baik</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1" id="good-condition">-</h3>
+                        <p class="text-gray-500 text-sm">Kondisi Baik</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                            </div>
+                            <span class="badge badge-warning">Perbaikan</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1" id="repair-needed">-</h3>
+                        <p class="text-gray-500 text-sm">Perlu Perbaikan</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
+                                <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+                            </div>
+                            <span class="badge badge-info" id="stat-pending">Loading...</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1" id="pending-requests">-</h3>
+                        <p class="text-gray-500 text-sm">Pengajuan Pending</p>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="card rounded-2xl p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Quick Actions</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button onclick="openAddModal('inventory')" class="btn-primary flex items-center justify-center gap-2">
+                            <i class="fas fa-plus"></i>
+                            <span>Tambah Barang</span>
+                        </button>
+                        <button onclick="showPage('pengajuan')" class="btn-success flex items-center justify-center gap-2">
+                            <i class="fas fa-file-plus"></i>
+                            <span>Pengajuan Baru</span>
+                        </button>
+                        <button onclick="showPage('approval')" class="btn-primary flex items-center justify-center gap-2">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Approval</span>
+                        </button>
+                        <button onclick="exportData()" class="btn-success flex items-center justify-center gap-2">
+                            <i class="fas fa-download"></i>
+                            <span>Export</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Aktivitas Terbaru</h3>
+                    <div id="recent-activity" class="space-y-4">
+                        <p class="text-gray-500 text-center py-8">Loading aktivitas...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inventory Page -->
+            <div id="page-inventory" class="page hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Inventory IT</h2>
+                        <p class="text-gray-500">Kelola data inventory IT</p>
+                    </div>
+                    <button onclick="openAddModal('inventory')" class="btn-primary flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        <span>Tambah Barang</span>
+                    </button>
+                </div>
+                
+                <!-- Filters -->
+                <div class="card rounded-2xl p-4 mb-6 flex flex-wrap gap-4 items-center">
+                    <input type="text" id="search-inventory" placeholder="Cari barang..." class="search-box" onkeyup="filterInventory()">
+                    <select id="filter-kategori" class="filter-select" onchange="filterInventory()">
+                        <option value="">Semua Kategori</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Printer">Printer</option>
+                        <option value="Networking">Networking</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                    <select id="filter-kondisi" class="filter-select" onchange="filterInventory()">
+                        <option value="">Semua Kondisi</option>
+                        <option value="Baik">Baik</option>
+                        <option value="Rusak Ringan">Rusak Ringan</option>
+                        <option value="Rusak Berat">Rusak Berat</option>
+                    </select>
+                    <button onclick="refreshInventory()" class="btn-success flex items-center gap-2">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+                
+                <!-- Table -->
+                <div class="table-container">
+                    <div class="table-header flex justify-between items-center">
+                        <span>Daftar Inventory</span>
+                        <span id="inventory-count">0 items</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left" style="color: var(--text-secondary);">
+                                    <th class="px-6 py-4 font-semibold">Kode</th>
+                                    <th class="px-6 py-4 font-semibold">Nama Barang</th>
+                                    <th class="px-6 py-4 font-semibold">Kategori</th>
+                                    <th class="px-6 py-4 font-semibold">Lokasi</th>
+                                    <th class="px-6 py-4 font-semibold">Jumlah</th>
+                                    <th class="px-6 py-4 font-semibold">Kondisi</th>
+                                    <th class="px-6 py-4 font-semibold">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table">
+                                <tr>
+                                    <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                                        <div class="loading-spinner mx-auto mb-4"></div>
+                                        Loading data...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="flex justify-center items-center gap-2 mt-6" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </div>
+            
+            <!-- Pengajuan Page -->
+            <div id="page-pengajuan" class="page hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Pengajuan Inventory</h2>
+                        <p class="text-gray-500">Kelola pengajuan barang IT</p>
+                    </div>
+                    <button onclick="openAddModal('pengajuan')" class="btn-primary flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        <span>Pengajuan Baru</span>
+                    </button>
+                </div>
+                
+                <!-- Filters -->
+                <div class="card rounded-2xl p-4 mb-6 flex flex-wrap gap-4 items-center">
+                    <input type="text" id="search-pengajuan" placeholder="Cari pengajuan..." class="search-box" onkeyup="filterPengajuan()">
+                    <select id="filter-status" class="filter-select" onchange="filterPengajuan()">
+                        <option value="">Semua Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Disetujui">Disetujui</option>
+                        <option value="Ditolak">Ditolak</option>
+                    </select>
+                    <button onclick="refreshPengajuan()" class="btn-success flex items-center gap-2">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+                
+                <!-- Table -->
+                <div class="table-container">
+                    <div class="table-header flex justify-between items-center">
+                        <span>Daftar Pengajuan</span>
+                        <span id="pengajuan-count">0 items</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left" style="color: var(--text-secondary);">
+                                    <th class="px-6 py-4 font-semibold">Barang</th>
+                                    <th class="px-6 py-4 font-semibold">Jenis</th>
+                                    <th class="px-6 py-4 font-semibold">Jumlah</th>
+                                    <th class="px-6 py-4 font-semibold">Pemohon</th>
+                                    <th class="px-6 py-4 font-semibold">Status</th>
+                                    <th class="px-6 py-4 font-semibold">Tanggal</th>
+                                    <th class="px-6 py-4 font-semibold">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pengajuan-table">
+                                <tr>
+                                    <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                                        <div class="loading-spinner mx-auto mb-4"></div>
+                                        Loading data...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Approval Page -->
+            <div id="page-approval" class="page hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Approval</h2>
+                        <p class="text-gray-500">Setujui atau tolak pengajuan</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Pending Approvals -->
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-clock text-yellow-500"></i>
+                            Pending Approval
+                        </h3>
+                        <div id="pending-approval-list" class="space-y-4">
+                            <p class="text-gray-500 text-center py-8">Loading...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Approved -->
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            Approved
+                        </h3>
+                        <div id="approved-list" class="space-y-4">
+                            <p class="text-gray-500 text-center py-8">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Laporan Page -->
+            <div id="page-laporan" class="page hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Laporan</h2>
+                        <p class="text-gray-500">Statistik dan laporan inventory</p>
+                    </div>
+                    <button onclick="exportData()" class="btn-primary flex items-center gap-2">
+                        <i class="fas fa-download"></i>
+                        <span>Export Laporan</span>
+                    </button>
+                </div>
+                
+                <!-- Stats Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="stat-card">
+                        <h4 class="text-sm text-gray-500 mb-2">Total Inventory Value</h4>
+                        <h3 class="text-2xl font-bold" id="total-value">-</h3>
+                    </div>
+                    <div class="stat-card">
+                        <h4 class="text-sm text-gray-500 mb-2">Items by Category</h4>
+                        <div id="category-breakdown" class="space-y-2"></div>
+                    </div>
+                    <div class="stat-card">
+                        <h4 class="text-sm text-gray-500 mb-2">Items by Location</h4>
+                        <div id="location-breakdown" class="space-y-2"></div>
+                    </div>
+                </div>
+                
+                <!-- Charts Placeholder -->
+                <div class="card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Distribusi Inventory</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="h-64 flex items-center justify-center bg-gray-100 rounded-xl">
+                            <p class="text-gray-500">Chart Kategori</p>
+                        </div>
+                        <div class="h-64 flex items-center justify-center bg-gray-100 rounded-xl">
+                            <p class="text-gray-500">Chart Kondisi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- FAB -->
+    <button class="fab" onclick="showQuickActionMenu()">
+        <i class="fas fa-plus"></i>
+    </button>
+    
+    <!-- Add/Edit Modal -->
+    <div id="modal-add" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold" id="modal-title">Tambah Barang</h3>
+                <button onclick="closeModal('modal-add')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="form-add" onsubmit="handleSubmit(event)">
+                <input type="hidden" id="edit-id">
+                <input type="hidden" id="edit-type">
+                
+                <!-- Inventory Fields -->
+                <div id="fields-inventory" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Kode Barang</label>
+                        <input type="text" id="kode_barang" class="input-field" placeholder="Contoh: IT-LAP-001">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Nama Barang</label>
+                        <input type="text" id="nama_barang" class="input-field" placeholder="Contoh: Laptop HP ProBook 450">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Kategori</label>
+                        <select id="kategori" class="input-field">
+                            <option value="">Pilih Kategori</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Printer">Printer</option>
+                            <option value="Networking">Networking</option>
+                            <option value="Accessories">Accessories</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Lokasi</label>
+                        <input type="text" id="lokasi" class="input-field" placeholder="Contoh: Rantau Prapat - Room IT">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Jumlah</label>
+                        <input type="number" id="jumlah" class="input-field" placeholder="Contoh: 5">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Kondisi</label>
+                        <select id="kondisi" class="input-field">
+                            <option value="">Pilih Kondisi</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Rusak Ringan">Rusak Ringan</option>
+                            <option value="Rusak Berat">Rusak Berat</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Pengajuan Fields -->
+                <div id="fields-pengajuan" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Barang</label>
+                        <input type="text" id="barang" class="input-field" placeholder="Nama barang yang diajukan">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Jenis Pengajuan</label>
+                        <select id="jenis" class="input-field">
+                            <option value="">Pilih Jenis</option>
+                            <option value="Pembelian Baru">Pembelian Baru</option>
+                            <option value="Perbaikan">Perbaikan</option>
+                            <option value="Penggantian">Penggantian</option>
+                            <option value="Pengembalian">Pengembalian</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Jumlah</label>
+                        <input type="number" id="jumlah_pengajuan" class="input-field" placeholder="Contoh: 2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Pemohon</label>
+                        <input type="text" id="pemohon" class="input-field" placeholder="Nama pemohon">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Keterangan</label>
+                        <textarea id="keterangan" class="input-field" rows="3" placeholder="Keterangan tambahan"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 mt-6">
+                    <button type="button" onclick="closeModal('modal-add')" class="flex-1 btn-danger">Batal</button>
+                    <button type="submit" class="flex-1 btn-success">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="modal-delete" class="modal-overlay">
+        <div class="modal-content text-center">
+            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-trash text-red-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Hapus Data?</h3>
+            <p class="text-gray-500 mb-6">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
+            <input type="hidden" id="delete-id">
+            <input type="hidden" id="delete-type">
+            <div class="flex gap-4">
+                <button onclick="closeModal('modal-delete')" class="flex-1 btn-primary">Batal</button>
+                <button onclick="confirmDelete()" class="flex-1 btn-danger">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // KONFIGURASI
+        // ============================================
+        const API_BASE = ''; // Kosong karena pakai proxy server
+        
+        // Data from Feishu Base
+        const FEISHU_CONFIG = {
+            baseToken: 'Hw0cbWqSXaBPSqscb6yloVxBgHf',
+            tableInventory: 'tblPzURG9M0mIEvU',
+            tablePengajuan: 'tbl2AYTZlyDnDK1v'
+        };
+        
+        // State
+        let inventoryData = [];
+        let pengajuanData = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        
+        // ============================================
+        // FEISHU API CALLS
+        // ============================================
+        async function callFeishuAPI(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' }
+                };
+                if (body) options.body = JSON.stringify(body);
+                
+                const response = await fetch(`/api/${endpoint}`, options);
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                showToast('Error koneksi ke server', 'error');
+                return null;
+            }
+        }
+        
+        // ============================================
+        // PAGE NAVIGATION
+        // ============================================
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            
+            // Show selected page
+            document.getElementById(`page-${pageName}`).classList.remove('hidden');
+            
+            // Update nav
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            const navLink = document.getElementById(`nav-${pageName}`);
+            if (navLink) navLink.classList.add('active');
+            
+            // Load data for page
+            if (pageName === 'inventory') loadInventory();
+            if (pageName === 'pengajuan') loadPengajuan();
+            if (pageName === 'approval') loadApproval();
+            if (pageName === 'dashboard') loadDashboard();
+            if (pageName === 'laporan') loadLaporan();
+        }
+        
+        // ============================================
+        // LOAD DATA
+        // ============================================
+        async function loadInventory() {
+            const result = await callFeishuAPI('inventory');
+            if (result && result.code === 0) {
+                inventoryData = result.data.items || [];
+                renderInventoryTable();
+                updateDashboardStats();
+            } else {
+                document.getElementById('inventory-table').innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mb-2"></i>
+                            <p>Gagal memuat data inventory</p>
+                            <button onclick="loadInventory()" class="btn-primary mt-4">Coba Lagi</button>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        async function loadPengajuan() {
+            const result = await callFeishuAPI('pengajuan');
+            if (result && result.code === 0) {
+                pengajuanData = result.data.items || [];
+                renderPengajuanTable();
+            } else {
+                document.getElementById('pengajuan-table').innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mb-2"></i>
+                            <p>Gagal memuat data pengajuan</p>
+                            <button onclick="loadPengajuan()" class="btn-primary mt-4">Coba Lagi</button>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        async function loadDashboard() {
+            await loadInventory();
+            await loadPengajuan();
+            updateDashboardStats();
+            renderRecentActivity();
+        }
+        
+        async function loadApproval() {
+            await loadPengajuan();
+            renderApprovalLists();
+        }
+        
+        async function loadLaporan() {
+            await loadInventory();
+            renderLaporanStats();
+        }
+        
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
+        function renderInventoryTable() {
+            const tbody = document.getElementById('inventory-table');
+            const filtered = filterData(inventoryData, 'inventory');
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = filtered.slice(start, end);
+            
+            if (pageData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-box-open text-gray-300 text-4xl mb-3"></i>
+                            <p>Belum ada data inventory</p>
+                            <button onclick="openAddModal('inventory')" class="btn-primary mt-4">Tambah Barang Pertama</button>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = pageData.map(item => {
+                const kondisiClass = item.kondisi === 'Baik' ? 'badge-success' : 
+                                   item.kondisi === 'Rusak Ringan' ? 'badge-warning' : 'badge-danger';
+                
+                return `
+                    <tr class="table-row">
+                        <td class="px-6 py-4 font-mono text-sm">${item.kode_barang || '-'}</td>
+                        <td class="px-6 py-4 font-semibold">${item.nama_barang || '-'}</td>
+                        <td class="px-6 py-4">${item.kategori || '-'}</td>
+                        <td class="px-6 py-4">${item.lokasi || '-'}</td>
+                        <td class="px-6 py-4 font-bold">${item.jumlah || 0}</td>
+                        <td class="px-6 py-4"><span class="badge ${kondisiClass}">${item.kondisi || '-'}</span></td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                <button onclick="editItem('${item.record_id}', 'inventory')" class="p-2 hover:bg-blue-100 rounded-lg transition">
+                                    <i class="fas fa-edit text-blue-500"></i>
+                                </button>
+                                <button onclick="deleteItem('${item.record_id}', 'inventory')" class="p-2 hover:bg-red-100 rounded-lg transition">
+                                    <i class="fas fa-trash text-red-500"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            document.getElementById('inventory-count').textContent = `${filtered.length} items`;
+            renderPagination(filtered.length);
+        }
+        
+        function renderPengajuanTable() {
+            const tbody = document.getElementById('pengajuan-table');
+            const filtered = filterData(pengajuanData, 'pengajuan');
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-file-alt text-gray-300 text-4xl mb-3"></i>
+                            <p>Belum ada pengajuan</p>
+                            <button onclick="openAddModal('pengajuan')" class="btn-primary mt-4">Buat Pengajuan Pertama</button>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = filtered.map(item => {
+                const statusClass = item.status === 'Disetujui' ? 'badge-success' : 
+                                   item.status === 'Ditolak' ? 'badge-danger' : 'badge-warning';
+                
+                return `
+                    <tr class="table-row">
+                        <td class="px-6 py-4 font-semibold">${item.barang || '-'}</td>
+                        <td class="px-6 py-4">${item.jenis || '-'}</td>
+                        <td class="px-6 py-4 font-bold">${item.jumlah || 0}</td>
+                        <td class="px-6 py-4">${item.pemohon || '-'}</td>
+                        <td class="px-6 py-4"><span class="badge ${statusClass}">${item.status || 'Pending'}</span></td>
+                        <td class="px-6 py-4 text-sm text-gray-500">${item.created_time || '-'}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                <button onclick="editItem('${item.record_id}', 'pengajuan')" class="p-2 hover:bg-blue-100 rounded-lg transition">
+                                    <i class="fas fa-edit text-blue-500"></i>
+                                </button>
+                                <button onclick="deleteItem('${item.record_id}', 'pengajuan')" class="p-2 hover:bg-red-100 rounded-lg transition">
+                                    <i class="fas fa-trash text-red-500"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            document.getElementById('pengajuan-count').textContent = `${filtered.length} items`;
+        }
+        
+        function renderApprovalLists() {
+            const pending = pengajuanData.filter(p => p.status === 'Pending' || !p.status);
+            const approved = pengajuanData.filter(p => p.status === 'Disetujui');
+            
+            // Pending List
+            const pendingContainer = document.getElementById('pending-approval-list');
+            if (pending.length === 0) {
+                pendingContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Tidak ada pengajuan pending</p>';
+            } else {
+                pendingContainer.innerHTML = pending.map(p => `
+                    <div class="p-4 rounded-xl bg-yellow-50 border border-yellow-200">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-semibold">${p.barang}</h4>
+                            <span class="badge badge-warning">Pending</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">${p.jenis} - ${p.jumlah} unit oleh ${p.pemohon}</p>
+                        <div class="flex gap-2">
+                            <button onclick="updateStatus('${p.record_id}', 'Disetujui')" class="btn-success text-sm py-2 px-4">
+                                <i class="fas fa-check mr-1"></i> Setujui
+                            </button>
+                            <button onclick="updateStatus('${p.record_id}', 'Ditolak')" class="btn-danger text-sm py-2 px-4">
+                                <i class="fas fa-times mr-1"></i> Tolak
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Approved List
+            const approvedContainer = document.getElementById('approved-list');
+            if (approved.length === 0) {
+                approvedContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Belum ada yang disetujui</p>';
+            } else {
+                approvedContainer.innerHTML = approved.map(p => `
+                    <div class="p-4 rounded-xl bg-green-50 border border-green-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-semibold">${p.barang}</h4>
+                                <p class="text-sm text-gray-600">${p.jenis} - ${p.jumlah} unit oleh ${p.pemohon}</p>
+                            </div>
+                            <span class="badge badge-success">Disetujui</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function renderLaporanStats() {
+            // Total Value
+            const totalValue = inventoryData.reduce((sum, item) => sum + (item.jumlah || 0), 0);
+            document.getElementById('total-value').textContent = `${totalValue} Items`;
+            
+            // Category Breakdown
+            const categories = {};
+            inventoryData.forEach(item => {
+                const cat = item.kategori || 'Lainnya';
+                categories[cat] = (categories[cat] || 0) + (item.jumlah || 0);
+            });
+            
+            const catContainer = document.getElementById('category-breakdown');
+            catContainer.innerHTML = Object.entries(categories).map(([cat, count]) => `
+                <div class="flex justify-between items-center">
+                    <span class="text-sm">${cat}</span>
+                    <span class="font-bold">${count}</span>
+                </div>
+            `).join('');
+            
+            // Location Breakdown
+            const locations = {};
+            inventoryData.forEach(item => {
+                const loc = item.lokasi || 'Unknown';
+                locations[loc] = (locations[loc] || 0) + (item.jumlah || 0);
+            });
+            
+            const locContainer = document.getElementById('location-breakdown');
+            locContainer.innerHTML = Object.entries(locations).slice(0, 5).map(([loc, count]) => `
+                <div class="flex justify-between items-center">
+                    <span class="text-sm truncate">${loc}</span>
+                    <span class="font-bold">${count}</span>
+                </div>
+            `).join('');
+        }
+        
+        function updateDashboardStats() {
+            const total = inventoryData.length;
+            const goodCondition = inventoryData.filter(i => i.kondisi === 'Baik').length;
+            const repairNeeded = inventoryData.filter(i => i.kondisi !== 'Baik').length;
+            const pending = pengajuanData.filter(p => p.status === 'Pending' || !p.status).length;
+            
+            document.getElementById('total-items').textContent = total;
+            document.getElementById('good-condition').textContent = goodCondition;
+            document.getElementById('repair-needed').textContent = repairNeeded;
+            document.getElementById('pending-requests').textContent = pending;
+        }
+        
+        function renderRecentActivity() {
+            const container = document.getElementById('recent-activity');
+            const activities = [
+                ...inventoryData.slice(0, 3).map(i => ({ type: 'inventory', text: `Barang baru: ${i.nama_barang}`, time: 'Baru saja' })),
+                ...pengajuanData.slice(0, 3).map(p => ({ type: 'pengajuan', text: `Pengajuan: ${p.barang}`, time: 'Baru saja' }))
+            ];
+            
+            if (activities.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-4">Belum ada aktivitas</p>';
+                return;
+            }
+            
+            container.innerHTML = activities.map(a => `
+                <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition">
+                    <div class="w-10 h-10 rounded-full ${a.type === 'inventory' ? 'bg-blue-100' : 'bg-purple-100'} flex items-center justify-center">
+                        <i class="fas ${a.type === 'inventory' ? 'fa-box' : 'fa-file-alt'} ${a.type === 'inventory' ? 'text-blue-500' : 'text-purple-500'}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium">${a.text}</p>
+                        <p class="text-sm text-gray-500">${a.time}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const container = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <button onclick="goToPage(${i})" 
+                            class="w-10 h-10 rounded-lg ${i === currentPage ? 'gradient-bg text-white' : 'bg-gray-100'} font-medium transition">
+                        ${i}
+                    </button>
+                `;
+            }
+            container.innerHTML = html;
+        }
+        
+        // ============================================
+        // FILTER FUNCTIONS
+        // ============================================
+        function filterData(data, type) {
+            let filtered = [...data];
+            
+            if (type === 'inventory') {
+                const search = document.getElementById('search-inventory')?.value.toLowerCase() || '';
+                const kategori = document.getElementById('filter-kategori')?.value || '';
+                const kondisi = document.getElementById('filter-kondisi')?.value || '';
+                
+                if (search) filtered = filtered.filter(i => 
+                    (i.nama_barang || '').toLowerCase().includes(search) ||
+                    (i.kode_barang || '').toLowerCase().includes(search)
+                );
+                if (kategori) filtered = filtered.filter(i => i.kategori === kategori);
+                if (kondisi) filtered = filtered.filter(i => i.kondisi === kondisi);
+            } else {
+                const search = document.getElementById('search-pengajuan')?.value.toLowerCase() || '';
+                const status = document.getElementById('filter-status')?.value || '';
+                
+                if (search) filtered = filtered.filter(p => 
+                    (p.barang || '').toLowerCase().includes(search) ||
+                    (p.pemohon || '').toLowerCase().includes(search)
+                );
+                if (status) filtered = filtered.filter(p => p.status === status);
+            }
+            
+            return filtered;
+        }
+        
+        function filterInventory() {
+            currentPage = 1;
+            renderInventoryTable();
+        }
+        
+        function filterPengajuan() {
+            renderPengajuanTable();
+        }
+        
+        function goToPage(page) {
+            currentPage = page;
+            renderInventoryTable();
+        }
+        
+        // ============================================
+        // CRUD OPERATIONS
+        // ============================================
+        function openAddModal(type) {
+            document.getElementById('edit-id').value = '';
+            document.getElementById('edit-type').value = type;
+            document.getElementById('modal-title').textContent = type === 'inventory' ? 'Tambah Barang' : 'Pengajuan Baru';
+            
+            // Show/hide fields
+            document.getElementById('fields-inventory').classList.toggle('hidden', type !== 'inventory');
+            document.getElementById('fields-pengajuan').classList.toggle('hidden', type !== 'pengajuan');
+            
+            // Clear form
+            document.getElementById('form-add').reset();
+            
+            openModal('modal-add');
+        }
+        
+        async function editItem(id, type) {
+            const data = type === 'inventory' ? inventoryData : pengajuanData;
+            const item = data.find(i => i.record_id === id);
+            
+            if (!item) return;
+            
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-type').value = type;
+            document.getElementById('modal-title').textContent = type === 'inventory' ? 'Edit Barang' : 'Edit Pengajuan';
+            
+            // Show/hide fields
+            document.getElementById('fields-inventory').classList.toggle('hidden', type !== 'inventory');
+            document.getElementById('fields-pengajuan').classList.toggle('hidden', type !== 'pengajuan');
+            
+            // Fill form
+            if (type === 'inventory') {
+                document.getElementById('kode_barang').value = item.kode_barang || '';
+                document.getElementById('nama_barang').value = item.nama_barang || '';
+                document.getElementById('kategori').value = item.kategori || '';
+                document.getElementById('lokasi').value = item.lokasi || '';
+                document.getElementById('jumlah').value = item.jumlah || '';
+                document.getElementById('kondisi').value = item.kondisi || '';
+            } else {
+                document.getElementById('barang').value = item.barang || '';
+                document.getElementById('jenis').value = item.jenis || '';
+                document.getElementById('jumlah_pengajuan').value = item.jumlah || '';
+                document.getElementById('pemohon').value = item.pemohon || '';
+                document.getElementById('keterangan').value = item.keterangan || '';
+            }
+            
+            openModal('modal-add');
+        }
+        
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('edit-id').value;
+            const type = document.getElementById('edit-type').value;
+            
+            let data = {};
+            
+            if (type === 'inventory') {
+                data = {
+                    kode_barang: document.getElementById('kode_barang').value,
+                    nama_barang: document.getElementById('nama_barang').value,
+                    kategori: document.getElementById('kategori').value,
+                    lokasi: document.getElementById('lokasi').value,
+                    jumlah: document.getElementById('jumlah').value,
+                    kondisi: document.getElementById('kondisi').value
+                };
+            } else {
+                data = {
+                    barang: document.getElementById('barang').value,
+                    jenis: document.getElementById('jenis').value,
+                    jumlah: document.getElementById('jumlah_pengajuan').value,
+                    pemohon: document.getElementById('pemohon').value,
+                    keterangan: document.getElementById('keterangan').value
+                };
+            }
+            
+            const endpoint = type;
+            const method = id ? `${endpoint}/${id}` : endpoint;
+            const apiMethod = id ? 'PUT' : 'POST';
+            
+            const result = await callFeishuAPI(method, apiMethod, data);
+            
+            if (result && result.code === 0) {
+                showToast(id ? 'Data berhasil diupdate!' : 'Data berhasil ditambahkan!', 'success');
+                closeModal('modal-add');
+                if (type === 'inventory') loadInventory();
+                else loadPengajuan();
+            } else {
+                showToast('Gagal menyimpan data', 'error');
+            }
+        }
+        
+        function deleteItem(id, type) {
+            document.getElementById('delete-id').value = id;
+            document.getElementById('delete-type').value = type;
+            openModal('modal-delete');
+        }
+        
+        async function confirmDelete() {
+            const id = document.getElementById('delete-id').value;
+            const type = document.getElementById('delete-type').value;
+            
+            const result = await callFeishuAPI(`${type}/${id}`, 'DELETE');
+            
+            if (result && result.code === 0) {
+                showToast('Data berhasil dihapus!', 'success');
+                closeModal('modal-delete');
+                if (type === 'inventory') loadInventory();
+                else loadPengajuan();
+            } else {
+                showToast('Gagal menghapus data', 'error');
+            }
+        }
+        
+        async function updateStatus(id, status) {
+            const result = await callFeishuAPI(`pengajuan/${id}`, 'PUT', { status });
+            
+            if (result && result.code === 0) {
+                showToast(`Pengajuan berhasil ${status === 'Disetujui' ? 'disetujui' : 'ditolak'}!`, 'success');
+                loadApproval();
+            } else {
+                showToast('Gagal mengupdate status', 'error');
+            }
+        }
+        
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>${message}`;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        function showQuickActionMenu() {
+            showToast('Pilih aksi dari menu sidebar', 'warning');
+        }
+        
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function refreshInventory() {
+            loadInventory();
+            showToast('Data berhasil direfresh!', 'success');
+        }
+        
+        function refreshPengajuan() {
+            loadPengajuan();
+            showToast('Data berhasil direfresh!', 'success');
+        }
+        
+        function exportData() {
+            showToast('Fitur export dalam pengembangan', 'warning');
+        }
+        
+        // ============================================
+        // THEME TOGGLE
+        // ============================================
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark');
+            document.body.classList.toggle('light');
+        });
+        
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+    </script>
+</body>
+</html>
