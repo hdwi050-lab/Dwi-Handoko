@@ -30,15 +30,15 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .pulse-dot {
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  .pulse-dot { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .region-btn.active {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    border-color: transparent;
   }
   .city-btn.active {
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    background: linear-gradient(135deg, #06b6d4, #0ea5e9);
     color: white;
     border-color: transparent;
   }
@@ -51,17 +51,9 @@
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  .alert-badge {
-    animation: blink 2s ease-in-out infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  .alert-badge { animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 </style>
 </head>
 <body class="text-white">
@@ -77,7 +69,7 @@
             <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
               Cuaca SUMBAGUT
             </h1>
-            <p class="text-slate-400 text-sm">Dashboard Prakiraan Cuaca Real-time — Wilayah Sumatera Utara</p>
+            <p class="text-slate-400 text-sm">Dashboard Prakiraan Cuaca Real-time — 33 Kabupaten/Kota Sumatera Utara</p>
           </div>
         </div>
       </div>
@@ -95,21 +87,26 @@
   </div>
 </header>
 
+<!-- Region Tabs -->
+<section class="px-4 md:px-8 mb-3">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex gap-2 overflow-x-auto scroll-hide pb-2">
+      <button class="region-btn active px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="all" onclick="filterRegion('all')">🌍 Semua Wilayah</button>
+      <button class="region-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="medan-raya" onclick="filterRegion('medan-raya')">🏙️ Medan & Sekitar</button>
+      <button class="region-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="pantai-timur" onclick="filterRegion('pantai-timur')">🌴 Pantai Timur</button>
+      <button class="region-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="danau-toba" onclick="filterRegion('danau-toba')">🏞️ Danau Toba</button>
+      <button class="region-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="tapanuli" onclick="filterRegion('tapanuli')">⛰️ Tapanuli & Mandailing</button>
+      <button class="region-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="nias" onclick="filterRegion('nias')">🏝️ Pulau Nias</button>
+      <button class="region-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift" data-region="aceh" onclick="filterRegion('aceh')">🕌 Aceh</button>
+    </div>
+  </div>
+</section>
+
 <!-- City Selector -->
 <section class="px-4 md:px-8 mb-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex gap-2 overflow-x-auto scroll-hide pb-2">
-      <button class="city-btn active px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="medan" onclick="switchCity('medan')">🏙️ Medan</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="binjai" onclick="switchCity('binjai')">🏘️ Binjai</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="pematangsiantar" onclick="switchCity('pematangsiantar')">🌆 Pematang Siantar</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="tebingtinggi" onclick="switchCity('tebingtinggi')">🏙️ Tebing Tinggi</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="padangsidempuan" onclick="switchCity('padangsidempuan')">🌅 Padang Sidempuan</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="sibolga" onclick="switchCity('sibolga')">⚓ Sibolga</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="gunungsitoli" onclick="switchCity('gunungsitoli')">🏝️ Gunungsitoli (Nias)</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="parapat" onclick="switchCity('parapat')">🏞️ Parapat (Danau Toba)</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="rantau" onclick="switchCity('rantau')">🌿 Rantauprapat</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="langsa" onclick="switchCity('langsa')">🌴 Langsa (Aceh)</button>
-      <button class="city-btn px-4 py-2 rounded-xl glass-light text-sm font-medium whitespace-nowrap hover-lift" data-city="lhokseumawe" onclick="switchCity('lhokseumawe')">⚓ Lhokseumawe</button>
+    <div class="flex flex-wrap gap-2" id="cityButtons">
+      <!-- City buttons injected by JS -->
     </div>
   </div>
 </section>
@@ -219,9 +216,7 @@
     <div class="h-64">
       <canvas id="hourlyChart"></canvas>
     </div>
-    <div class="flex gap-3 overflow-x-auto scroll-hide mt-4" id="hourlyScroll">
-      <!-- Hourly items injected by JS -->
-    </div>
+    <div class="flex gap-3 overflow-x-auto scroll-hide mt-4" id="hourlyScroll"></div>
   </div>
 
   <!-- 7-Day Forecast -->
@@ -229,19 +224,18 @@
     <h3 class="font-semibold mb-4 flex items-center gap-2">
       <span>📅</span> Prakiraan 7 Hari
     </h3>
-    <div class="grid gap-2" id="dailyForecast">
-      <!-- Daily items injected by JS -->
-    </div>
+    <div class="grid gap-2" id="dailyForecast"></div>
   </div>
 
   <!-- Multi-City Overview -->
   <div class="glass rounded-3xl p-6">
-    <h3 class="font-semibold mb-4 flex items-center gap-2">
-      <span>🗺️</span> Ringkasan Seluruh Wilayah SUMBAGUT
-    </h3>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="multiCityGrid">
-      <!-- Multi city cards injected by JS -->
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-semibold flex items-center gap-2">
+        <span>🗺️</span> Ringkasan Seluruh Wilayah
+        <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300" id="regionCount">-- kota</span>
+      </h3>
     </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3" id="multiCityGrid"></div>
   </div>
 
   <!-- Precipitation & Wind Chart -->
@@ -273,16 +267,17 @@
       <div class="space-y-3 text-sm">
         <div class="glass-light rounded-xl p-3">
           <p class="text-cyan-400 font-medium mb-1">Stasiun Meteorologi</p>
-          <p class="text-slate-300">Stasiun Meteorologi Polonia Medan (Kota Medan)</p>
+          <p class="text-slate-300">Stasiun Meteorologi Polonia Medan</p>
           <p class="text-slate-400 text-xs">Bandara Polonia, Jl. Besar No.KM.7, Polonia</p>
         </div>
         <div class="glass-light rounded-xl p-3">
-          <p class="text-cyan-400 font-medium mb-1">Info Penting</p>
+          <p class="text-cyan-400 font-medium mb-1">Info Klimatologi SUMUT</p>
           <ul class="text-slate-300 space-y-1 text-xs">
             <li>• Musim Hujan: Oktober – Januari</li>
             <li>• Musim Kemarau: Mei – September</li>
             <li>• Suhu rata-rata tahunan: 24°C – 32°C</li>
             <li>• Kelembapan relatif: 75% – 90%</li>
+            <li>• 33 Kabupaten & Kota di Sumatera Utara</li>
           </ul>
         </div>
         <a href="https://www.bmkg.go.id/" target="_blank" class="block text-center text-cyan-400 text-xs hover:underline mt-2">
@@ -300,14 +295,14 @@
           <span class="text-2xl">🌤️</span>
           <div>
             <p class="font-medium">Open-Meteo API</p>
-            <p class="text-slate-400 text-xs">Data cuaca real-time & historis</p>
+            <p class="text-slate-400 text-xs">Data cuaca real-time & prakiraan</p>
           </div>
         </div>
         <div class="flex items-center gap-3 glass-light rounded-xl p-3">
           <span class="text-2xl">🏛️</span>
           <div>
             <p class="font-medium">BMKG Indonesia</p>
-            <p class="text-slate-400 text-xs">Badan Meteorologi Klimatologi Geofisika</p>
+            <p class="text-slate-400 text-xs">Referensi & data klimatologi</p>
           </div>
         </div>
         <div class="flex items-center gap-3 glass-light rounded-xl p-3">
@@ -327,7 +322,7 @@
   <!-- Footer -->
   <footer class="text-center text-slate-500 text-xs pt-4">
     <p>🌤️ Cuaca SUMBAGUT — Dibuat oleh Herbie untuk J&T Express SUMBAGUT</p>
-    <p class="mt-1">Data bersumber dari Open-Meteo & BMKG • Diperbarui secara real-time</p>
+    <p class="mt-1">33 Kabupaten/Kota Sumatera Utara • Data Open-Meteo & BMKG • Real-time</p>
   </footer>
 
 </div>
@@ -335,23 +330,62 @@
 
 <script>
 // ============================================================
-// CITY DATA - Sumatera Utara & sekitarnya
+// CITY DATA - Lengkap 33 Kabupaten/Kota Sumatera Utara + Aceh
 // ============================================================
 const cities = {
-  medan:     { name: 'Medan',              lat: 3.5970,  lon: 98.6785, region: 'Sumatera Utara', type: 'Kota Besar' },
-  binjai:    { name: 'Binjai',             lat: 3.5993,  lon: 98.4893, region: 'Sumatera Utara', type: 'Kota' },
-  pematangsiantar: { name: 'Pematang Siantar', lat: 2.9824, lon: 99.0658, region: 'Sumatera Utara', type: 'Kota' },
-  tebingtinggi: { name: 'Tebing Tinggi',   lat: 3.3285,  lon: 99.1750, region: 'Sumatera Utara', type: 'Kota' },
-  padangsidempuan: { name: 'Padang Sidempuan', lat: 1.3739, lon: 99.2814, region: 'Sumatera Utara', type: 'Kota' },
-  sibolga:   { name: 'Sibolga',            lat: 1.7379,  lon: 98.7893, region: 'Sumatera Utara', type: 'Kota Pesisir' },
-  gunungsitoli: { name: 'Gunungsitoli',    lat: 1.2893,  lon: 97.5536, region: 'Pulau Nias',    type: 'Kota' },
-  parapat:   { name: 'Parapat',            lat: 2.6569,  lon: 98.9386, region: 'Danau Toba',    type: 'Kawasan Wisata' },
-  rantau:    { name: 'Rantauprapat',       lat: 2.1000,  lon: 99.8333, region: 'Sumatera Utara', type: 'Kabupaten' },
-  langsa:    { name: 'Langsa',             lat: 4.4681,  lon: 97.9683, region: 'Aceh',           type: 'Kota' },
-  lhokseumawe:{ name: 'Lhokseumawe',       lat: 5.1333,  lon: 97.1500, region: 'Aceh',           type: 'Kota Pesisir' },
+  // ===== MEDAN RAYA =====
+  medan:      { name: 'Medan',             lat: 3.5970, lon: 98.6785, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kota', icon: '🏙️' },
+  binjai:     { name: 'Binjai',            lat: 3.5993, lon: 98.4893, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kota', icon: '🏘️' },
+  deliSerdang:{ name: 'Deli Serdang',      lat: 3.5631, lon: 98.8593, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kabupaten', icon: '🏘️' },
+  karo:       { name: 'Karo (Kabanjahe)',  lat: 3.1156, lon: 98.4933, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kabupaten', icon: '⛰️' },
+  dairi:      { name: 'Dairi (Sidikalang)',lat: 2.7114, lon: 98.3175, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kabupaten', icon: '🏔️' },
+  langkat:    { name: 'Langkat (Stabat)',  lat: 3.7593, lon: 98.4742, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kabupaten', icon: '🌴' },
+  pakpakBharat:{ name: 'Pakpak Bharat',    lat: 2.3200, lon: 98.2792, region: 'medan-raya',  regionName: 'Medan & Sekitar', type: 'Kabupaten', icon: '🌿' },
+
+  // ===== PANTAI TIMUR =====
+  tebingTinggi:{ name: 'Tebing Tinggi',    lat: 3.3285, lon: 99.1750, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kota', icon: '🏙️' },
+  pematangSiantar:{ name: 'Pematang Siantar', lat: 2.9824, lon: 99.0658, region: 'pantai-timur', regionName: 'Pantai Timur', type: 'Kota', icon: '🌆' },
+  serdangBedagai:{ name: 'Serdang Bedagai', lat: 3.1864, lon: 99.1586, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kabupaten', icon: '🌴' },
+  simalungun: { name: 'Simalungun',        lat: 2.9429, lon: 99.0545, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kabupaten', icon: '🌿' },
+  asahan:     { name: 'Asahan (Kisaran)',  lat: 2.9833, lon: 99.6167, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kabupaten', icon: '🏭' },
+  batuBara:   { name: 'Batu Bara',         lat: 3.3500, lon: 99.5167, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kabupaten', icon: '⚓' },
+  tanjungBalai:{ name: 'Tanjungbalai',     lat: 2.9728, lon: 99.8753, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kota', icon: '⚓' },
+  labuhanBatu: { name: 'Labuhanbatu',      lat: 2.1000, lon: 99.8333, region: 'pantai-timur',regionName: 'Pantai Timur', type: 'Kabupaten', icon: '🌿' },
+  labuhanBatuUtara:{ name: 'Labuhanbatu Utara', lat: 2.4500, lon: 99.6833, region: 'pantai-timur', regionName: 'Pantai Timur', type: 'Kabupaten', icon: '🌴' },
+  labuhanBatuSelatan:{ name: 'Labuhanbatu Selatan', lat: 1.9167, lon: 99.9167, region: 'pantai-timur', regionName: 'Pantai Timur', type: 'Kabupaten', icon: '🌿' },
+
+  // ===== DANAU TOBA =====
+  toba:       { name: 'Toba (Balige)',      lat: 2.3333, lon: 99.0667, region: 'danau-toba',  regionName: 'Danau Toba', type: 'Kabupaten', icon: '🏞️' },
+  samosir:    { name: 'Samosir',            lat: 2.6233, lon: 98.9897, region: 'danau-toba',  regionName: 'Danau Toba', type: 'Kabupaten', icon: '🏝️' },
+  humbangHasundutan:{ name: 'Humbang Hasundutan', lat: 2.3917, lon: 98.7692, region: 'danau-toba', regionName: 'Danau Toba', type: 'Kabupaten', icon: '⛰️' },
+  parapat:    { name: 'Parapat',            lat: 2.6569, lon: 98.9386, region: 'danau-toba',  regionName: 'Danau Toba', type: 'Kawasan Wisata', icon: '🏞️' },
+
+  // ===== TAPANULI & MANDAILING =====
+  padangSidempuan:{ name: 'Padang Sidempuan', lat: 1.3739, lon: 99.2814, region: 'tapanuli', regionName: 'Tapanuli & Mandailing', type: 'Kota', icon: '🌅' },
+  tapanuliUtara:{ name: 'Tapanuli Utara',   lat: 1.9167, lon: 98.9333, region: 'tapanuli',    regionName: 'Tapanuli & Mandailing', type: 'Kabupaten', icon: '⛰️' },
+  tapanuliTengah:{ name: 'Tapanuli Tengah', lat: 1.6667, lon: 98.8500, region: 'tapanuli',    regionName: 'Tapanuli & Mandailing', type: 'Kabupaten', icon: '🏔️' },
+  tapanuliSelatan:{ name: 'Tapanuli Selatan', lat: 1.4167, lon: 99.2667, region: 'tapanuli',  regionName: 'Tapanuli & Mandailing', type: 'Kabupaten', icon: '🌄' },
+  mandailingNatal:{ name: 'Mandailing Natal', lat: 1.1667, lon: 99.5000, region: 'tapanuli', regionName: 'Tapanuli & Mandailing', type: 'Kabupaten', icon: '🌿' },
+  padangLawas: { name: 'Padang Lawas',      lat: 1.4833, lon: 99.7667, region: 'tapanuli',    regionName: 'Tapanuli & Mandailing', type: 'Kabupaten', icon: '🌴' },
+  padangLawasUtara:{ name: 'Padang Lawas Utara', lat: 1.7333, lon: 99.8667, region: 'tapanuli', regionName: 'Tapanuli & Mandailing', type: 'Kabupaten', icon: '⛰️' },
+  sibolga:    { name: 'Sibolga',            lat: 1.7379, lon: 98.7893, region: 'tapanuli',    regionName: 'Tapanuli & Mandailing', type: 'Kota Pesisir', icon: '⚓' },
+
+  // ===== PULAU NIAS =====
+  gunungsitoli:{ name: 'Gunungsitoli',      lat: 1.2893, lon: 97.5536, region: 'nias',         regionName: 'Pulau Nias', type: 'Kota', icon: '🏝️' },
+  nias:       { name: 'Nias (Gido)',        lat: 1.3000, lon: 97.4833, region: 'nias',         regionName: 'Pulau Nias', type: 'Kabupaten', icon: '🏝️' },
+  niasUtara:  { name: 'Nias Utara',         lat: 1.7167, lon: 97.6667, region: 'nias',         regionName: 'Pulau Nias', type: 'Kabupaten', icon: '🌴' },
+  niasSelatan:{ name: 'Nias Selatan',       lat: 0.8500, lon: 97.5167, region: 'nias',         regionName: 'Pulau Nias', type: 'Kabupaten', icon: '🏝️' },
+  niasBarat:  { name: 'Nias Barat',         lat: 1.3833, lon: 97.3333, region: 'nias',         regionName: 'Pulau Nias', type: 'Kabupaten', icon: '🌊' },
+
+  // ===== ACEH (SUMBAGUT) =====
+  bandaAceh:  { name: 'Banda Aceh',         lat: 5.5483, lon: 95.3239, region: 'aceh',         regionName: 'Aceh', type: 'Kota', icon: '🕌' },
+  langsa:     { name: 'Langsa',             lat: 4.4681, lon: 97.9683, region: 'aceh',         regionName: 'Aceh', type: 'Kota', icon: '🌴' },
+  lhokseumawe:{ name: 'Lhokseumawe',        lat: 5.1333, lon: 97.1500, region: 'aceh',         regionName: 'Aceh', type: 'Kota Pesisir', icon: '⚓' },
+  meulaboh:   { name: 'Meulaboh',           lat: 4.1468, lon: 96.1295, region: 'aceh',         regionName: 'Aceh', type: 'Kabupaten', icon: '🌴' },
 };
 
 let currentCity = 'medan';
+let currentRegion = 'all';
 let hourlyChart = null;
 let precipChart = null;
 let windChart = null;
@@ -401,6 +435,40 @@ function getAQIInfo(aqi) {
   if (aqi <= 200) return { label: 'Tidak Sehat', color: '#ef4444', desc: 'Semua orang mungkin mengalami efek kesehatan' };
   if (aqi <= 300) return { label: 'Sangat Tidak Sehat', color: '#a855f7', desc: 'Peringatan kesehatan: kondisi darurat' };
   return { label: 'Berbahaya', color: '#7f1d1d', desc: 'Bahaya kesehatan serius untuk seluruh populasi' };
+}
+
+// ============================================================
+// REGION FILTER
+// ============================================================
+function filterRegion(region) {
+  currentRegion = region;
+
+  // Update active tab
+  document.querySelectorAll('.region-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.region === region);
+  });
+
+  renderCityButtons();
+  loadMultiCity();
+}
+
+function renderCityButtons() {
+  const container = document.getElementById('cityButtons');
+  container.innerHTML = '';
+
+  const filteredCities = Object.entries(cities).filter(([key, city]) => {
+    if (currentRegion === 'all') return true;
+    return city.region === currentRegion;
+  });
+
+  filteredCities.forEach(([key, city]) => {
+    const btn = document.createElement('button');
+    btn.className = `city-btn px-3 py-1.5 rounded-lg glass-light text-xs font-medium whitespace-nowrap hover-lift ${key === currentCity ? 'active' : ''}`;
+    btn.dataset.city = key;
+    btn.onclick = () => switchCity(key);
+    btn.textContent = `${city.icon} ${city.name}`;
+    container.appendChild(btn);
+  });
 }
 
 // ============================================================
@@ -455,7 +523,7 @@ function renderCurrent(data, cityKey) {
   const weather = getWeatherInfo(current.weather_code);
 
   document.getElementById('cityName').textContent = city.name;
-  document.getElementById('cityRegion').textContent = city.region + ' • ' + city.type;
+  document.getElementById('cityRegion').textContent = city.regionName + ' • ' + city.type;
   document.getElementById('currentTemp').textContent = Math.round(current.temperature_2m) + '°';
   document.getElementById('currentIcon').textContent = weather.icon;
   document.getElementById('currentDesc').textContent = weather.desc;
@@ -517,7 +585,6 @@ function renderHourly(data) {
     precProbs.push(hourly.precipitation_probability[i]);
   }
 
-  // Update chart
   if (hourlyChart) hourlyChart.destroy();
   const ctx = document.getElementById('hourlyChart').getContext('2d');
   hourlyChart = new Chart(ctx, {
@@ -560,7 +627,6 @@ function renderHourly(data) {
     },
   });
 
-  // Scrollable hourly cards
   const scroll = document.getElementById('hourlyScroll');
   scroll.innerHTML = '';
   for (let i = startIdx; i < endIdx; i++) {
@@ -704,23 +770,28 @@ function renderWindChart(data) {
 // ============================================================
 async function loadMultiCity() {
   const grid = document.getElementById('multiCityGrid');
-  const mainCities = ['medan', 'binjai', 'pematangsiantar', 'tebingtinggi', 'padangsidempuan', 'sibolga', 'parapat', 'rantau'];
+  const filteredCities = Object.entries(cities).filter(([key, city]) => {
+    if (currentRegion === 'all') return true;
+    return city.region === currentRegion;
+  });
+
+  document.getElementById('regionCount').textContent = filteredCities.length + ' wilayah';
 
   grid.innerHTML = '';
-  for (const key of mainCities) {
+  for (const [key, city] of filteredCities) {
     const div = document.createElement('div');
     div.className = 'glass-light rounded-xl p-3 hover-lift cursor-pointer';
     div.innerHTML = `
       <div class="flex justify-between items-start">
         <div>
-          <p class="font-medium text-sm">${cities[key].name}</p>
-          <p class="text-xs text-slate-400">${cities[key].region}</p>
+          <p class="font-medium text-xs">${city.icon} ${city.name}</p>
+          <p class="text-[10px] text-slate-500">${city.regionName}</p>
         </div>
-        <div class="loading-skeleton w-8 h-8 rounded-full"></div>
+        <div class="loading-skeleton w-6 h-6 rounded-full"></div>
       </div>
       <div class="mt-2">
-        <div class="loading-skeleton h-6 w-16 rounded mb-1"></div>
-        <div class="loading-skeleton h-3 w-12 rounded"></div>
+        <div class="loading-skeleton h-5 w-12 rounded mb-1"></div>
+        <div class="loading-skeleton h-3 w-10 rounded"></div>
       </div>
     `;
     div.onclick = () => switchCity(key);
@@ -728,30 +799,42 @@ async function loadMultiCity() {
   }
 
   // Load each city's current weather
-  for (let i = 0; i < mainCities.length; i++) {
-    const key = mainCities[i];
-    try {
-      const data = await fetchWeather(key);
-      if (data && data.current) {
-        const weather = getWeatherInfo(data.current.weather_code);
-        const temp = Math.round(data.current.temperature_2m);
-        const card = grid.children[i];
-        card.innerHTML = `
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="font-medium text-sm">${cities[key].name}</p>
-              <p class="text-xs text-slate-400">${cities[key].region}</p>
-            </div>
-            <span class="text-2xl">${weather.icon}</span>
-          </div>
-          <div class="mt-2">
-            <p class="text-xl font-bold">${temp}°C</p>
-            <p class="text-xs text-slate-400">${weather.desc}</p>
-          </div>
-        `;
-      }
-    } catch (e) { console.error(e); }
+  for (let i = 0; i < filteredCities.length; i++) {
+    const [key, city] = filteredCities[i];
+    loadCityCard(key, i);
   }
+}
+
+async function loadCityCard(cityKey, index) {
+  const grid = document.getElementById('multiCityGrid');
+  const card = grid.children[index];
+  if (!card) return;
+
+  try {
+    let data = weatherCache[cityKey];
+    if (!data) {
+      data = await fetchWeather(cityKey);
+      weatherCache[cityKey] = data;
+    }
+    if (data && data.current) {
+      const weather = getWeatherInfo(data.current.weather_code);
+      const temp = Math.round(data.current.temperature_2m);
+      const city = cities[cityKey];
+      card.innerHTML = `
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="font-medium text-xs">${city.icon} ${city.name}</p>
+            <p class="text-[10px] text-slate-500">${city.regionName}</p>
+          </div>
+          <span class="text-xl">${weather.icon}</span>
+        </div>
+        <div class="mt-2">
+          <p class="text-lg font-bold">${temp}°</p>
+          <p class="text-[10px] text-slate-400">${weather.desc}</p>
+        </div>
+      `;
+    }
+  } catch (e) { console.error(e); }
 }
 
 // ============================================================
@@ -771,9 +854,13 @@ async function switchCity(cityKey) {
   document.getElementById('currentDesc').textContent = 'Memuat...';
 
   // Fetch and render
-  const data = await fetchWeather(cityKey);
+  let data = weatherCache[cityKey];
+  if (!data) {
+    data = await fetchWeather(cityKey);
+    if (data) weatherCache[cityKey] = data;
+  }
+
   if (data) {
-    weatherCache[cityKey] = data;
     renderCurrent(data, cityKey);
     renderSunTimes(data.daily);
     renderHourly(data);
@@ -799,13 +886,13 @@ function checkAlerts(data, cityKey) {
 
   for (let i = 0; i < 3; i++) {
     if (daily.precipitation_probability_max[i] >= 80) {
-      alerts.push(`${cities[cityKey].name}: Peluang hujan tinggi (${daily.precipitation_probability_max[i]}%) pada hari ke-${i+1}`);
+      alerts.push(`${cities[cityKey].name}: Peluang hujan tinggi (${daily.precipitation_probability_max[i]}%) ${i === 0 ? 'hari ini' : 'hari ke-' + (i+1)}`);
     }
     if (daily.weather_code[i] >= 95) {
-      alerts.push(`${cities[cityKey].name}: Potensi badai petir pada hari ke-${i+1}`);
+      alerts.push(`${cities[cityKey].name}: Potensi badai petir ${i === 0 ? 'hari ini' : 'hari ke-' + (i+1)}`);
     }
     if (daily.wind_speed_10m_max[i] >= 40) {
-      alerts.push(`${cities[cityKey].name}: Angin kencang (${daily.wind_speed_10m_max[i]} km/j) pada hari ke-${i+1}`);
+      alerts.push(`${cities[cityKey].name}: Angin kencang (${daily.wind_speed_10m_max[i]} km/j) ${i === 0 ? 'hari ini' : 'hari ke-' + (i+1)}`);
     }
   }
 
@@ -835,34 +922,32 @@ function updateTimestamp() {
 
 function refreshAll() {
   const icon = document.getElementById('refreshIcon');
-  icon.style.display = 'inline-block';
-  icon.style.animation = 'none';
-  icon.offsetHeight; // trigger reflow
   icon.style.animation = 'spin 1s linear';
-
   weatherCache = {};
   switchCity(currentCity);
   loadMultiCity();
+  setTimeout(() => { icon.style.animation = ''; }, 1000);
 }
 
 // ============================================================
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  renderCityButtons();
   switchCity('medan');
   loadMultiCity();
 
   // Auto-refresh every 15 minutes
   setInterval(() => {
+    weatherCache = {};
     switchCity(currentCity);
+    loadMultiCity();
   }, 15 * 60 * 1000);
 });
 
 // Add spin animation
 const style = document.createElement('style');
-style.textContent = `
-  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-`;
+style.textContent = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`;
 document.head.appendChild(style);
 </script>
 
